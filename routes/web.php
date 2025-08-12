@@ -19,6 +19,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/auth', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('sign-in');
 });
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::resource('/', DashboardController::class)->middleware('auth');
 Route::resource('obat', ObatController::class)->middleware('auth');
