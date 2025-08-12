@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\RekamMedis;
 use App\Models\Rujukan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class RujukanController extends Controller
 {
@@ -89,5 +91,40 @@ class RujukanController extends Controller
         $rujukan->delete();
 
         return redirect()->route('rujukan.index')->with('success', 'Data rujukan berhasil dihapus.');
+    }
+
+
+    public function getData()
+    {
+        $data = Rujukan::with('rekamMedis.pasien.user')
+            ->orderBy('tanggal_rujukan', 'desc')
+            ->get();
+
+        return response()->json($data);
+    }
+
+    // Simpan rujukan baru
+    public function storeData(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'rekam_medis_id' => 'required|exists:rekam_medis,id',
+            'dari_faskes' => 'required|in:puskesmas,rumah_sakit',
+            'ke_faskes' => 'required|in:puskesmas,rumah_sakit',
+            'alasan_rujukan' => 'required|string',
+            'tanggal_rujukan' => 'required|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $rujukan = Rujukan::create($request->all());
+
+        return response()->json([
+            'message' => 'Rujukan berhasil ditambahkan',
+            'data' => $rujukan,
+        ], 201);
     }
 }

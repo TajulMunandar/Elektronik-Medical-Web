@@ -94,7 +94,7 @@
                                                         @foreach ($pasiens as $p)
                                                             <option value="{{ $p->id }}"
                                                                 {{ $p->id == $rm->pasien_id ? 'selected' : '' }}>
-                                                                {{ $p->nama }}
+                                                                {{ $p->user->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>

@@ -130,4 +130,30 @@ class PasiensController extends Controller
 
         return redirect()->route('pasien.index')->with('success', 'Pasien berhasil dihapus');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $pasiens = Pasien::with('user:id,name') // ambil data user
+            ->when($query, function ($q2) use ($query) {
+                $q2->whereHas('user', function ($q3) use ($query) {
+                    $q3->where('name', 'like', "%{$query}%");
+                })
+                    ->orWhere('nik', 'like', "%{$query}%");
+            })
+            ->limit(10)
+            ->get(['id', 'nik', 'user_id']); // ambil kolom yang dibutuhkan
+
+        // ubah format supaya ada 'nama'
+        $result = $pasiens->map(function ($pasien) {
+            return [
+                'id'   => $pasien->id,
+                'nama' => $pasien->user->name ?? '',
+                'nik'  => $pasien->nik,
+            ];
+        });
+
+        return response()->json($result);
+    }
 }
