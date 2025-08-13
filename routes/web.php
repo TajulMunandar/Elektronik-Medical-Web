@@ -20,7 +20,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('sign-in');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-
 Route::resource('/', DashboardController::class)->middleware('auth');
 Route::resource('obat', ObatController::class)->middleware('auth');
 Route::resource('user', UsersController::class)->middleware('auth');
