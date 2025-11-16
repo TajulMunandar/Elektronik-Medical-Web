@@ -68,10 +68,17 @@
                                             <p><strong>Diagnosa:</strong> {{ $rm->diagnosa }}</p>
                                             <p><strong>Catatan Tambahan:</strong> {{ $rm->catatan_tambahan ?? '-' }}</p>
                                             <p><strong>Lokasi:</strong> {{ ucfirst($rm->lokasi) }}</p>
+
+                                            <hr>
+                                            <h6>Data Medis</h6>
+                                            <p><strong>Detak Jantung:</strong> {{ $rm->detak_jantung ?? '-' }}</p>
+                                            <p><strong>Denyut Nadi:</strong> {{ $rm->denyut_nadi ?? '-' }}</p>
+                                            <p><strong>Tekanan Darah:</strong> {{ $rm->tekanan_darah ?? '-' }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
 
                             {{-- Modal Edit --}}
                             <div class="modal fade" id="modalEdit{{ $rm->id }}" tabindex="-1" role="dialog"
@@ -88,6 +95,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
+                                                {{-- Pasien --}}
                                                 <div class="form-group">
                                                     <label>Pasien</label>
                                                     <select name="pasien_id" class="form-control" required>
@@ -99,6 +107,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                {{-- Petugas --}}
                                                 <div class="form-group">
                                                     <label>Petugas</label>
                                                     <select name="petugas_id" class="form-control" required>
@@ -110,23 +119,28 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                {{-- Tanggal Periksa --}}
                                                 <div class="form-group">
                                                     <label>Tanggal Periksa</label>
                                                     <input type="date" name="tanggal_periksa" class="form-control"
                                                         value="{{ $rm->tanggal_periksa }}" required>
                                                 </div>
+                                                {{-- Keluhan --}}
                                                 <div class="form-group">
                                                     <label>Keluhan</label>
                                                     <textarea name="keluhan" class="form-control" required>{{ $rm->keluhan }}</textarea>
                                                 </div>
+                                                {{-- Diagnosa --}}
                                                 <div class="form-group">
                                                     <label>Diagnosa</label>
                                                     <textarea name="diagnosa" class="form-control" required>{{ $rm->diagnosa }}</textarea>
                                                 </div>
+                                                {{-- Catatan Tambahan --}}
                                                 <div class="form-group">
                                                     <label>Catatan Tambahan</label>
                                                     <textarea name="catatan_tambahan" class="form-control">{{ $rm->catatan_tambahan }}</textarea>
                                                 </div>
+                                                {{-- Lokasi --}}
                                                 <div class="form-group">
                                                     <label>Lokasi</label>
                                                     <select name="lokasi" class="form-control" required>
@@ -137,6 +151,22 @@
                                                             {{ $rm->lokasi == 'rumah_sakit' ? 'selected' : '' }}>Rumah
                                                             Sakit</option>
                                                     </select>
+                                                </div>
+                                                {{-- Tambahan Data Medis --}}
+                                                <div class="form-group">
+                                                    <label>Detak Jantung</label>
+                                                    <input type="text" name="detak_jantung" class="form-control"
+                                                        value="{{ $rm->detak_jantung }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Denyut Nadi</label>
+                                                    <input type="text" name="denyut_nadi" class="form-control"
+                                                        value="{{ $rm->denyut_nadi }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tekanan Darah</label>
+                                                    <input type="text" name="tekanan_darah" class="form-control"
+                                                        value="{{ $rm->tekanan_darah }}">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -166,6 +196,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        {{-- Pasien --}}
                         <div class="form-group">
                             <label>Pasien</label>
                             <select name="pasien_id" class="form-control" required>
@@ -174,6 +205,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        {{-- Petugas --}}
                         <div class="form-group">
                             <label>Petugas</label>
                             <select name="petugas_id" class="form-control" required>
@@ -182,28 +214,46 @@
                                 @endforeach
                             </select>
                         </div>
+                        {{-- Tanggal Periksa --}}
                         <div class="form-group">
                             <label>Tanggal Periksa</label>
                             <input type="date" name="tanggal_periksa" class="form-control" required>
                         </div>
+                        {{-- Keluhan --}}
                         <div class="form-group">
                             <label>Keluhan</label>
                             <textarea name="keluhan" class="form-control" required></textarea>
                         </div>
+                        {{-- Diagnosa --}}
                         <div class="form-group">
                             <label>Diagnosa</label>
                             <textarea name="diagnosa" class="form-control" required></textarea>
                         </div>
+                        {{-- Catatan Tambahan --}}
                         <div class="form-group">
                             <label>Catatan Tambahan</label>
                             <textarea name="catatan_tambahan" class="form-control"></textarea>
                         </div>
+                        {{-- Lokasi --}}
                         <div class="form-group">
                             <label>Lokasi</label>
                             <select name="lokasi" class="form-control" required>
                                 <option value="puskesmas">Puskesmas</option>
                                 <option value="rumah_sakit">Rumah Sakit</option>
                             </select>
+                        </div>
+                        {{-- Tambahan Data Medis --}}
+                        <div class="form-group">
+                            <label>Detak Jantung</label>
+                            <input type="text" name="detak_jantung" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Denyut Nadi</label>
+                            <input type="text" name="denyut_nadi" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Tekanan Darah</label>
+                            <input type="text" name="tekanan_darah" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">

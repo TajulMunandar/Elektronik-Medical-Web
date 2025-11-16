@@ -43,12 +43,16 @@ class RekamMedisController extends Controller
             'diagnosa' => 'required|string',
             'catatan_tambahan' => 'nullable|string',
             'lokasi' => 'required|in:puskesmas,rumah_sakit',
+            'detak_jantung' => 'nullable|string',
+            'denyut_nadi' => 'nullable|string',
+            'tekanan_darah' => 'nullable|string',
         ]);
 
         RekamMedis::create($request->all());
 
         return redirect()->route('rekam-medis.index')->with('success', 'Rekam medis berhasil ditambahkan');
     }
+
 
     /**
      * Display the specified resource.
@@ -79,6 +83,9 @@ class RekamMedisController extends Controller
             'diagnosa' => 'required|string',
             'catatan_tambahan' => 'nullable|string',
             'lokasi' => 'required|in:puskesmas,rumah_sakit',
+            'detak_jantung' => 'nullable|string',
+            'denyut_nadi' => 'nullable|string',
+            'tekanan_darah' => 'nullable|string',
         ]);
 
         $rekamMedis = RekamMedis::findOrFail($id);
@@ -86,6 +93,7 @@ class RekamMedisController extends Controller
 
         return redirect()->route('rekam-medis.index')->with('success', 'Rekam medis berhasil diperbarui');
     }
+
 
     public function rekamMedisSaya(Request $request)
     {
@@ -131,9 +139,8 @@ class RekamMedisController extends Controller
         }
         // Kalau role petugas → ambil semua data
         else {
-            $pasienIds = RekamMedis::distinct()->pluck('pasien_id');
-            $pasienList = Pasien::with('user')->whereIn('id', $pasienIds)->get();
-            return response()->json($pasienList);
+            $data = RekamMedis::with(['pasien.user'])->get();
+            return response()->json($data);
         }
 
         return response()->json($data);
@@ -147,7 +154,10 @@ class RekamMedisController extends Controller
             'diagnosa' => 'required|string',
             'catatan' => 'nullable|string',
             'lokasi' => 'required|string',
-            'tanggal_periksa' => 'required|date'
+            'tanggal_periksa' => 'required|date',
+            'detak_jantung' => 'nullable|string',
+            'denyut_nadi' => 'nullable|string',
+            'tekanan_darah' => 'nullable|string',
         ]);
 
         $validated['petugas_id'] = auth::id();

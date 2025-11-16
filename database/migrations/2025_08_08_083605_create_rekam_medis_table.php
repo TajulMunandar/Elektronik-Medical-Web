@@ -15,11 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pasien_id')->constrained('pasiens')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('petugas_id')->constrained('users')->onDelete('restrict')->onUpdate('cascade');
-            $table->date('tanggal_periksa');
-            $table->text('keluhan');
-            $table->text('diagnosa');
+            $table->date('tanggal_periksa')->nullable();
+            $table->text('keluhan')->nullable();
+            $table->text('diagnosa')->nullable();
             $table->text('catatan_tambahan')->nullable();
-            $table->enum('lokasi', ['puskesmas', 'rumah_sakit']);
+            $table->enum('lokasi', ['puskesmas', 'rumah_sakit'])->nullable();
+            // Tambahan data medis
+            $table->string('detak_jantung')->nullable();
+            $table->string('denyut_nadi')->nullable();
+            $table->string('tekanan_darah')->nullable();
+
             $table->timestamps();
         });
     }

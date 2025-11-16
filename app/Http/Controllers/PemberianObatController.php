@@ -135,14 +135,13 @@ class PemberianObatController extends Controller
     public function getByRekamMedis($rekam_medis_id)
     {
         $data = PemberianObat::with(['obat', 'rekamMedis.pasien.user', 'rekamMedis.petugas'])
-            ->whereHas('rekamMedis', function ($q) use ($rekam_medis_id) {
-                $q->where('pasien_id', $rekam_medis_id);
-            })
+            ->where('rekam_medis_id', $rekam_medis_id)
             ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json($data);
     }
+
 
     public function getAll()
     {

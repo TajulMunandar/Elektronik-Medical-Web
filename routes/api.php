@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/rekam-medis/pasien/{rekamMedisId}', [Re
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/rekam-medis-data', [RekamMedisController::class, 'storeData']);
     Route::get('/rekam-medis-saya', [RekamMedisController::class, 'rekamMedisSaya']);
-    Route::get('/pemberian-obat', [PemberianObatController::class, 'getData']);
     Route::get('/obats', [PemberianObatController::class, 'getAll']);
+    Route::get('/pemberian-obat', [PemberianObatController::class, 'getData']);
     Route::post('/pemberian-obat', [PemberianObatController::class, 'storeData']);
     Route::get('/pemberian-obats/{rekamMedisId}', [PemberianObatController::class, 'getByRekamMedis']);
 });

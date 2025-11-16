@@ -17,7 +17,10 @@ class RekamMedis extends Model
         'keluhan',
         'diagnosa',
         'catatan_tambahan',
-        'lokasi'
+        'lokasi',
+        'detak_jantung',
+        'denyut_nadi',
+        'tekanan_darah',
     ];
 
     public function pasien()

@@ -96,9 +96,21 @@ class RujukanController extends Controller
 
     public function getData()
     {
-        $data = Rujukan::with('rekamMedis.pasien.user')
-            ->orderBy('tanggal_rujukan', 'desc')
-            ->get();
+        $user = Auth::user();
+        if ($user->role === 'pasien') {
+            // Ambil hanya rujukan milik pasien yang login
+            $data = Rujukan::with('rekamMedis.pasien.user')
+                ->whereHas('rekamMedis.pasien', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                })
+                ->orderBy('tanggal_rujukan', 'desc')
+                ->get();
+        } else {
+            // Kalau petugas → ambil semua rujukan
+            $data = Rujukan::with('rekamMedis.pasien.user')
+                ->orderBy('tanggal_rujukan', 'desc')
+                ->get();
+        }
 
         return response()->json($data);
     }
