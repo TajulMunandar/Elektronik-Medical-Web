@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pasien;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,12 +31,20 @@ class DatabaseSeeder extends Seeder
             'role' => 'petugas',
         ]);
 
-        // Akun Pasien
-        User::create([
+        $pasienUser = User::create([
             'name' => 'Pasien 1',
             'email' => 'pasien1@gmail.com',
             'password' => Hash::make('password123'),
             'role' => 'pasien',
+        ]);
+
+        // Buat data di tabel pasiens
+        Pasien::create([
+            'user_id' => $pasienUser->id,
+            'nik' => '1234567890123456',
+            'tanggal_lahir' => '1990-01-01',
+            'alamat' => 'Jl. Contoh Alamat No.1',
+            'jenis_kelamin' => 'L',
         ]);
     }
 }
